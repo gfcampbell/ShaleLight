@@ -44,11 +44,11 @@ function hybridScore(vector: VectorResult[], lexical: LexicalResult[]): SearchRe
       document_id: item.document_id,
       content: item.content,
       metadata: item.metadata,
-      score: (item.vector_score / maxVector) * 0.7,
+      score: (item.vector_score / maxVector) * 0.5,
     });
   }
   for (const item of lexical) {
-    const score = (item.lexical_score / maxLex) * 0.3;
+    const score = (item.lexical_score / maxLex) * 0.5;
     const prev = map.get(item.id);
     if (prev) {
       prev.score += score;
