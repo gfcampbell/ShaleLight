@@ -6,7 +6,9 @@ On-premises RAG platform for air-gapped and restricted network environments. Cra
 
 ## Quick Start
 
-If you prefer a guided, step-by-step setup flow, open `docs/setup-wizard.html` in your browser and follow the checklist.
+If you prefer a guided, step-by-step setup flow, open `setup-wizard.html` in your browser and follow the checklist.
+
+For implementation details and rationale, see `docs/README.md`.
 
 ### Prerequisites
 
@@ -71,6 +73,18 @@ Open http://localhost:3000 and log in with your admin credentials.
 | `npm run test:watch` | Run tests in watch mode |
 | `npm run lint` | ESLint check |
 | `npm run typecheck` | TypeScript type check |
+
+## Documentation
+
+- `docs/README.md` - Documentation index.
+- `setup-wizard.html` - Guided setup checklist UI (root entrypoint).
+- `docs/ARCHITECTURE.md` - System layout and boundaries.
+- `docs/RAG_PIPELINE.md` - Crawl-to-answer processing flow.
+- `docs/SEARCH_STRATEGY.md` - Retrieval/scoring techniques and rationale.
+- `docs/SECURITY_MODEL.md` - Security controls and trust boundaries.
+- `docs/OPERATIONS.md` - Runbook for setup, migrations, and maintenance.
+- `docs/TROUBLESHOOTING.md` - Common failures and fixes.
+- `docs/DECISIONS.md` - Decision log with tradeoffs.
 
 ## Deployment
 
