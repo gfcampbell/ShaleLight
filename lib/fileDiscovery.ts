@@ -38,11 +38,16 @@ export interface DirectoryEntry {
 
 export async function discoverVolumes(): Promise<VolumeInfo[]> {
   const roots = await fs.readdir('/Volumes').catch(() => []);
-  return roots.map((name) => ({
-    name,
-    path: path.join('/Volumes', name),
-    type: 'local' as const,
-  }));
+  const volumes = roots.map((name) => {
+    // Map "Macintosh HD" to root filesystem
+    const volumePath = name === 'Macintosh HD' ? '/' : path.join('/Volumes', name);
+    return {
+      name: name === 'Macintosh HD' ? 'Local System' : name,
+      path: volumePath,
+      type: 'local' as const,
+    };
+  });
+  return volumes;
 }
 
 export async function browseDirectory(targetPath: string): Promise<DirectoryEntry[]> {
