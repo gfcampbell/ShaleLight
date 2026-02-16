@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShaleLight Setup Wizard</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a2f;
+        --text: #e5e7eb;
+        --muted: #93a0b8;
+        --accent: #3b82f6;
+        --ok: #22c55e;
+        --warn: #f59e0b;
+        --border: #27314d;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, var(--bg), #090e1c);
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 24px 16px 80px;
+      }
+      .hero, .step, .tips {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .hero { padding: 18px; margin-bottom: 16px; }
+      .badge {
+        display: inline-block;
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        border-radius: 999px;
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+      h1 { margin: 0 0 8px; font-size: 26px; }
+      p { margin: 0; line-height: 1.45; color: var(--muted); }
+      .progress {
+        margin: 14px 0 0;
+        height: 10px;
+        background: #0f1527;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .progress > div {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), #60a5fa);
+        transition: width 0.2s ease;
+      }
+      .step { margin-top: 12px; padding: 14px; }
+      .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .title { font-weight: 650; }
+      .done {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      code, pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      pre {
+        margin: 10px 0 0;
+        background: #0f1527;
+        border: 1px solid var(--border);
+        color: #dbeafe;
+        border-radius: 10px;
+        padding: 10px;
+        overflow: auto;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: #17213b;
+        color: var(--text);
+        border-radius: 9px;
+        padding: 8px 10px;
+        cursor: pointer;
+      }
+      button:hover { border-color: #405483; }
+      .copy { background: rgba(59, 130, 246, 0.2); border-color: rgba(96, 165, 250, 0.5); }
+      .small { color: var(--muted); font-size: 13px; margin-top: 8px; }
+      .tips { margin-top: 16px; padding: 14px; }
+      .tips h2 { margin: 0 0 8px; font-size: 18px; }
+      ul { margin: 8px 0 0 18px; color: var(--muted); }
+      .status { color: var(--ok); font-size: 12px; margin-top: 8px; min-height: 16px; }
+      .warn { color: var(--warn); }
+      .footer {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <div class="badge">Critical</div>
+        <h1>ShaleLight Setup Wizard</h1>
+        <p>
+          Ollama is required for local, air-gapped operation. External providers are optional and require outbound network access.
+        </p>
+        <div class="progress" aria-label="Setup progress">
+          <div id="progress-bar"></div>
+        </div>
+        <p class="small" id="progress-text">0/8 steps complete</p>
+      </section>
+
+      <section class="step" data-step="1">
+        <div class="head">
+          <div class="title">1) Verify prerequisites</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>node --version
+docker --version
+ollama --version</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="node --version
+docker --version
+ollama --version">Copy</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="2">
+        <div class="head">
+          <div class="title">2) Clone and install dependencies</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>git clone &lt;repo-url&gt; && cd shalelight
+npm install</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="git clone <repo-url> && cd shalelight
+npm install">Copy</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="3">
+        <div class="head">
+          <div class="title">3) Start PostgreSQL with pgvector</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>docker compose up -d postgres</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="docker compose up -d postgres">Copy</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="4">
+        <div class="head">
+          <div class="title">4) Configure environment</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>cp .env.example .env.local
+# Edit .env.local and set a strong JWT_SECRET</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="cp .env.example .env.local">Copy command</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="5">
+        <div class="head">
+          <div class="title">5) Run setup bootstrap</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>npm run setup</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="npm run setup">Copy</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="6">
+        <div class="head">
+          <div class="title">6) Apply database migrations</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>npm run migrate</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="npm run migrate">Copy</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="7">
+        <div class="head">
+          <div class="title">7) Start application</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>npm run dev</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="npm run dev">Copy</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="step" data-step="8">
+        <div class="head">
+          <div class="title">8) Verify health endpoints</div>
+          <label class="done"><input type="checkbox" class="step-check" /> done</label>
+        </div>
+        <pre><code>curl http://localhost:3000/api/health
+curl http://localhost:3000/api/health/ready</code></pre>
+        <div class="actions">
+          <button class="copy" data-copy="curl http://localhost:3000/api/health
+curl http://localhost:3000/api/health/ready">Copy</button>
+          <button id="reset-all">Reset checklist</button>
+        </div>
+        <div class="status"></div>
+      </section>
+
+      <section class="tips">
+        <h2>Troubleshooting</h2>
+        <ul>
+          <li>If setup fails on Ollama check, start the Ollama service and retry.</li>
+          <li>If migration fails, verify `DATABASE_URL` in `.env.local` and that Postgres is running.</li>
+          <li>If health checks fail, ensure `npm run dev` is running in another terminal.</li>
+        </ul>
+      </section>
+
+      <p class="footer">
+        This page guides setup only. Browsers cannot execute shell commands directly from a local HTML file.
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        const key = "shalelight_setup_progress_v1";
+        const checks = Array.from(document.querySelectorAll(".step-check"));
+        const statuses = Array.from(document.querySelectorAll(".status"));
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+        const resetBtn = document.getElementById("reset-all");
+        const copyButtons = Array.from(document.querySelectorAll("button.copy"));
+
+        function load() {
+          try {
+            const data = JSON.parse(localStorage.getItem(key) || "{}");
+            checks.forEach((check, idx) => {
+              check.checked = Boolean(data[idx + 1]);
+            });
+          } catch {
+            // Ignore corrupted local state.
+          }
+        }
+
+        function save() {
+          const data = {};
+          checks.forEach((check, idx) => {
+            data[idx + 1] = check.checked;
+          });
+          localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function render() {
+          const done = checks.filter((c) => c.checked).length;
+          const total = checks.length;
+          const pct = Math.round((done / total) * 100);
+          progressBar.style.width = pct + "%";
+          progressText.textContent = done + "/" + total + " steps complete";
+        }
+
+        async function copyText(text, statusEl) {
+          statusEl.textContent = "";
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const ta = document.createElement("textarea");
+              ta.value = text;
+              ta.style.position = "fixed";
+              ta.style.left = "-9999px";
+              document.body.appendChild(ta);
+              ta.focus();
+              ta.select();
+              document.execCommand("copy");
+              document.body.removeChild(ta);
+            }
+            statusEl.textContent = "Copied.";
+          } catch {
+            statusEl.textContent = "Copy failed. Select the command and copy manually.";
+            statusEl.classList.add("warn");
+          }
+        }
+
+        checks.forEach((check) => {
+          check.addEventListener("change", () => {
+            save();
+            render();
+          });
+        });
+
+        copyButtons.forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const text = btn.getAttribute("data-copy") || "";
+            const step = btn.closest(".step");
+            const statusEl = step ? step.querySelector(".status") : statuses[0];
+            await copyText(text, statusEl);
+          });
+        });
+
+        resetBtn.addEventListener("click", () => {
+          checks.forEach((check) => {
+            check.checked = false;
+          });
+          localStorage.removeItem(key);
+          statuses.forEach((s) => {
+            s.textContent = "";
+            s.classList.remove("warn");
+          });
+          render();
+        });
+
+        load();
+        render();
+      })();
+    </script>
+  </body>
+</html>

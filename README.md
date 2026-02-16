@@ -6,6 +6,8 @@ On-premises RAG platform for air-gapped and restricted network environments. Cra
 
 ## Quick Start
 
+If you prefer a guided, step-by-step setup flow, open `docs/setup-wizard.html` in your browser and follow the checklist.
+
 ### Prerequisites
 
 - Node.js 20+
