@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
 const protectedRoutes = [
   '/chat',
@@ -21,40 +21,29 @@ function rejectRequest(request: NextRequest, pathname: string, status = 401) {
   return NextResponse.redirect(new URL('/login', request.url));
 }
 
-async function hasActiveSession(request: NextRequest): Promise<boolean> {
-  try {
-    const response = await fetch(new URL('/api/auth/me', request.url), {
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-      },
-      cache: 'no-store',
-    });
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (!isProtected(pathname)) return NextResponse.next();
 
   const token = request.cookies.get('shale_session')?.value;
   if (!token) {
+    console.log('[middleware] No token found for', pathname);
     return rejectRequest(request, pathname, 401);
   }
 
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
+    console.log('[middleware] JWT_SECRET not available');
     return rejectRequest(request, pathname, 500);
   }
 
   try {
-    jwt.verify(token, jwtSecret);
-    const sessionOk = await hasActiveSession(request);
-    if (!sessionOk) return rejectRequest(request, pathname, 401);
+    const secret = new TextEncoder().encode(jwtSecret);
+    await jwtVerify(token, secret);
+    console.log('[middleware] Token verified for', pathname);
     return NextResponse.next();
-  } catch {
+  } catch (err) {
+    console.log('[middleware] Token verification failed:', err.message);
     return rejectRequest(request, pathname, 401);
   }
 }
