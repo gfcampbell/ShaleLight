@@ -92,10 +92,10 @@ export default function AdminSourcesPage() {
 
   const runCrawl = async (sourceId: string) => {
     setLoading(true);
-    await fetch('/api/admin/pipeline/run', {
+    await fetch('/api/admin/pipeline/run-full', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'crawl', source_id: sourceId }),
+      body: JSON.stringify({ source_id: sourceId }),
     });
     setLoading(false);
     setSelectedSourceId(sourceId);
@@ -193,7 +193,7 @@ export default function AdminSourcesPage() {
                   className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700"
                   disabled={loading}
                 >
-                  Crawl Now
+                  Index Now
                 </button>
                 <button
                   onClick={() =>

@@ -7,6 +7,7 @@ import { runEmbedJob } from '@/lib/jobs/embed';
 import { runEntityExtractJob } from '@/lib/jobs/entityExtract';
 import { runEntityCleanupJob } from '@/lib/jobs/entityCleanup';
 import { runIndexRebuildJob } from '@/lib/jobs/indexRebuild';
+import { runPipelineJob } from '@/lib/jobs/pipeline';
 import { purgeExpiredCache } from '@/lib/cache';
 
 const runners: Record<string, (jobId: string, metadata: Record<string, unknown>) => Promise<void>> = {
@@ -16,6 +17,7 @@ const runners: Record<string, (jobId: string, metadata: Record<string, unknown>)
   entity_extract: runEntityExtractJob,
   entity_cleanup: runEntityCleanupJob,
   index_rebuild: runIndexRebuildJob,
+  pipeline: runPipelineJob,
 };
 
 const runningTypes = new Set<string>();
