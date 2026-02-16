@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import FolderBrowser from '@/components/FolderBrowser';
 
 interface Source {
   id: string;
@@ -25,6 +26,7 @@ interface FileIndexEntry {
 export default function AdminSourcesPage() {
   const [sources, setSources] = useState<Source[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showBrowser, setShowBrowser] = useState(false);
   const [newSource, setNewSource] = useState({ name: '', path: '' });
   const [selectedSourceId, setSelectedSourceId] = useState<string | null>(null);
   const [files, setFiles] = useState<FileIndexEntry[]>([]);
@@ -126,14 +128,22 @@ export default function AdminSourcesPage() {
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium">Path</label>
-              <input
-                className="w-full rounded border p-2 text-sm font-mono"
-                value={newSource.path}
-                onChange={(e) => setNewSource({ ...newSource, path: e.target.value })}
-                placeholder="/Volumes/data/documents"
-              />
+              <div className="flex gap-2">
+                <input
+                  className="flex-1 rounded border p-2 text-sm font-mono"
+                  value={newSource.path}
+                  readOnly
+                  placeholder="Click Browse to select a folder"
+                />
+                <button
+                  onClick={() => setShowBrowser(true)}
+                  className="rounded border px-4 py-2 text-sm hover:bg-slate-50"
+                >
+                  Browse...
+                </button>
+              </div>
               <p className="mt-1 text-xs text-slate-500">
-                Local filesystem path accessible from the server
+                Select a local or network folder to index
               </p>
             </div>
             <button
@@ -251,6 +261,16 @@ export default function AdminSourcesPage() {
           </div>
         )}
       </div>
+
+      {showBrowser && (
+        <FolderBrowser
+          onSelect={(path) => {
+            setNewSource({ ...newSource, path });
+            setShowBrowser(false);
+          }}
+          onCancel={() => setShowBrowser(false)}
+        />
+      )}
     </div>
   );
 }
