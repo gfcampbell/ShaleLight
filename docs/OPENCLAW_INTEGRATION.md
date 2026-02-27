@@ -4,6 +4,8 @@ Overview
 
 This document captures a prioritized plan to make ShaleLight first-class for OpenClaw (Quinn) and other programmatic agents. It lists concrete changes, rationale, implementation notes, and a combined first deliverable covering ingestion hooks, machine summaries, and agent-controlled search tuning.
 
+Note: ShaleLight is an open-source, on-premises RAG platform focused on air-gapped and restricted network environments. Integration defaults should preserve that model: external LLM providers must be opt-in and disabled by default for community/self-hosted installs.
+
 Goals
 
 - Make programmatic agents first-class API clients (secure, auditable, scoped).
@@ -137,6 +139,11 @@ Implementation notes & constraints
 - Idempotency: ingestion endpoints must accept idempotency keys so re-runs are safe.
 - Opt-in external providers: default behavior must not send content to OpenAI unless explicitly permitted per-request or per-agent.
 - Parameter safety: all agent-supplied search parameters are validated and clamped to safe ranges server-side. Invalid values fall back to defaults.
+
+Open-source notes (simple)
+
+- Defaults: For community/self-hosted installs, external providers (OpenAI/Anthropic) must be disabled by default. Document the air-gapped setup path (OLLAMA only) and include a simple security checklist before enabling external providers.
+- Contribution: Keep internal API changes behind feature flags and require docs + tests for public PRs.
 
 Next steps
 
