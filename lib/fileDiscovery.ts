@@ -11,7 +11,10 @@ function getAllowedRoots(): string[] {
 
 export function isPathAllowed(targetPath: string): boolean {
   const resolved = path.resolve(targetPath);
-  return getAllowedRoots().some((root) => resolved === root || resolved.startsWith(`${root}/`));
+  return getAllowedRoots().some((root) => {
+    if (root === '/') return true;
+    return resolved === root || resolved.startsWith(`${root}/`);
+  });
 }
 
 export class PathNotAllowedError extends Error {

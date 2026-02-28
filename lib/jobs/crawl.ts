@@ -50,7 +50,7 @@ export async function runCrawlJob(jobId: string, metadata: Record<string, unknow
   );
   if (!source) throw new Error('source not found');
 
-  const allowed = new Set((source.file_types || ['pdf', 'xlsx', 'csv', 'docx']).map((t) => `.${t.toLowerCase()}`));
+  const allowed = new Set((source.file_types || ['pdf', 'xlsx', 'csv', 'docx', 'txt']).map((t) => `.${t.toLowerCase()}`));
   const excludePatterns = source.exclude_patterns || ['node_modules', '.git', '.DS_Store'];
   let discovered = 0;
 

@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       body.path,
       body.source_type || 'local',
       body.schedule || '*/30 * * * *',
-      body.file_types || ['pdf', 'xlsx', 'csv', 'docx'],
+      body.file_types || ['pdf', 'xlsx', 'csv', 'docx', 'txt'],
       body.recursive ?? true,
       body.max_depth ?? 10,
       auth.userId || null,
